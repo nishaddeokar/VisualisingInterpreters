@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "Error.h"
-// #include "Interpreter.h"
-// #include "Parser.h"
-#include "Scanner.h"
+#include "error.h"
+// #include "interpreter.h"
+// #include "parser.h"
+#include "lexer.h"
 
 // Environment state
 // Interpreter interpreter{};
@@ -45,12 +45,12 @@ void execute_source(std::string_view code)
 {
     // Step 1: Lexical analysis
     Lexer lexer{code};
-    std::vector<Token> tokens = lexer.scanTokens();
+    std::vector<Token> tokens = lexer.scan_tokens();
 
     // Print the tokens.
     for (const Token &token : tokens)
     {
-        std::cout << token.toString() << "\n";
+        std::cout << token.to_string() << "\n";
     }
 
     // // Step 2: Syntax analysis
@@ -80,9 +80,14 @@ void execute_file(std::string_view path)
     execute_source(source);
 
     // Handle errors with appropriate exit codes
-    if (hadError)
+    if (had_error)
     {
         std::exit(65); // Syntax error
+    }
+
+    if (had_runtime_error)
+    {
+        std::exit(70); // Runtime error
     }
 }
 
@@ -108,7 +113,7 @@ void interactive_shell()
         execute_source(input_line);
 
         // Reset error state for next line
-        hadError = false;
+        had_error = false;
     }
 }
 

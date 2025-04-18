@@ -6,8 +6,8 @@
 #include <utility>
 #include <vector>
 #include <cctype>
-#include "Error.h"
-#include "Token.h"
+#include "error.h"
+#include "token.h"
 
 // Lexical analyzer for tokenizing source code
 class Lexer
@@ -26,7 +26,7 @@ private:
     // Character classification helpers
     bool is_end() const
     {
-        return current >= input.size();
+        return current >= source.size();
     }
 
     bool is_alpha(char c) const
@@ -44,25 +44,25 @@ private:
         return is_alpha(c) || is_digit(c);
     }
 
-    // Input navigation
+    // source navigation
     char advance()
     {
-        return input[current++];
+        return source[current++];
     }
 
     char peek() const
     {
-        return is_end() ? '\0' : input[current];
+        return is_end() ? '\0' : source[current];
     }
 
     char peek_next() const
     {
-        return (current + 1 >= input.size()) ? '\0' : input[current + 1];
+        return (current + 1 >= source.size()) ? '\0' : source[current + 1];
     }
 
     bool match(char expected)
     {
-        if (is_end() || input[current] != expected)
+        if (is_end() || source[current] != expected)
             return false;
         current++;
         return true;
@@ -76,8 +76,8 @@ private:
 
     void emit_token(TokenType type, std::any literal)
     {
-        std::string lexeme{input.substr(start, current - start)};
-        output.emplace_back(type, std::move(lexeme), std::move(literal), line);
+        std::string lexeme{source.substr(start, current - start)};
+        tokens.emplace_back(type, std::move(lexeme), std::move(literal), line);
     }
 
     // Token processing methods
@@ -88,10 +88,10 @@ private:
             advance();
 
         // Check if it's a keyword or user identifier
-        std::string text{input.substr(start, current - start)};
-        auto keyword_iter = reserved_words.find(text);
+        std::string text{source.substr(start, current - start)};
+        auto keyword_iter = keywords.find(text);
 
-        if (keyword_iter != reserved_words.end())
+        if (keyword_iter != keywords.end())
         {
             emit_token(keyword_iter->second); // It's a keyword
         }
@@ -118,7 +118,7 @@ private:
         }
 
         // Convert to numeric value
-        std::string num_str{input.substr(start, current - start)};
+        std::string num_str{source.substr(start, current - start)};
         emit_token(NUMBER, std::stod(num_str));
     }
 
@@ -143,7 +143,7 @@ private:
         advance();
 
         // Extract the string value (without quotes)
-        std::string value{input.substr(start + 1, current - start - 2)};
+        std::string value{source.substr(start + 1, current - start - 2)};
         emit_token(STRING, value);
     }
 
@@ -233,12 +233,12 @@ private:
 
 public:
     // Constructor takes source code to analyze
-    Scanner(std::string_view source) : input(source) {}
+    Lexer(std::string_view source) : source(source) {}
 
     // Main method to tokenize the source code
-    std::vector<Token> scanTokens()
+    std::vector<Token> scan_tokens()
     {
-        // Continue until end of input
+        // Continue until end ofsource
         while (!is_end())
         {
             // Mark start of current token
@@ -247,13 +247,13 @@ public:
         }
 
         // Add end-of-file token
-        output.emplace_back(END_OF_FILE, "", nullptr, line);
-        return output;
+        tokens.emplace_back(END_OF_FILE, "", nullptr, line);
+        return tokens;
     }
 };
 
 // Initialize the reserved keywords lookup table
-const std::map<std::string, TokenType> Scanner::reserved_words = {
+const std::map<std::string, TokenType> Lexer::keywords = {
     {"and", TokenType::AND},
     {"class", TokenType::CLASS},
     {"else", TokenType::ELSE},
