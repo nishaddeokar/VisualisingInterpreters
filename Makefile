@@ -4,7 +4,7 @@ CPPFLAGS := -MMD
 
 COMPILE  := $(CXX) $(CXXFLAGS) $(CPPFLAGS)
 
-SRCS     := prism.cpp
+SRCS     := ast_printer_driver.cpp prism.cpp
 DEPS     := $(SRCS:.cpp=.d)
 
 
@@ -12,9 +12,13 @@ prism: prism.o
 	@$(COMPILE) $< -o $@
 
 
+ast_printer: Expr.h ast_printer_driver.o
+	@$(COMPILE) ast_printer_driver.o -o $@
+
+
 .PHONY: clean
 clean:
-	rm -f *.d *.o prism
+	rm -f *.d *.o ast_printer prism 
 
 
 -include $(DEPS)
