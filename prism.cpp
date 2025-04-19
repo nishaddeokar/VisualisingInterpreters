@@ -4,9 +4,10 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "ast_printer.h"
 #include "error.h"
 // #include "interpreter.h"
-// #include "parser.h"
+#include "parser.h"
 #include "lexer.h"
 
 // Environment state
@@ -53,21 +54,17 @@ void execute_source(std::string_view code)
         std::cout << token.to_string() << "\n";
     }
 
-    // // Step 2: Syntax analysis
-    // Parser syntax_analyzer{token_stream};
-    // auto ast = syntax_analyzer.parse();
+    // Step 2: Syntax analysis
+    Parser parser{tokens};
+    std::shared_ptr<Expr> expression = parser.parse();
 
-    // // Stop if syntax errors were found
-    // if (hadError)
-    // {
-    //     return;
-    // }
+    // Stop if syntax errors were found
+    if (had_error)
+    {
+        return;
+    }
 
-    // // Handle potential resolution issues
-    // if (hadError)
-    // {
-    //     return;
-    // }
+    std::cout << AstPrinter{}.print(expression) << std::endl;
 
     // // Step 3: Execution
     // interpreter.interpret(ast);

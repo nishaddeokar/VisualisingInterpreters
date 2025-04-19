@@ -12,7 +12,7 @@ prism: prism.o
 	@$(COMPILE) $< -o $@
 
 
-ast_printer: Expr.h ast_printer_driver.o
+ast_printer: expr.h ast_printer_driver.o
 	@$(COMPILE) ast_printer_driver.o -o $@
 
 
@@ -36,3 +36,10 @@ test-lexing2:
 	@make prism >/dev/null
 	@echo "testing prism with test-lexing2.prism ..."
 	@./prism tests/test-lexing2.prism | diff -u --color tests/test-lexing2.prism.expected -;
+
+
+.PHONY: test-parsing
+test-parsing:
+	@make prism >/dev/null
+	@echo "testing prism with test-parsing.prism ..."
+	@./prism tests/test-parsing.prism | diff -u --color tests/test-parsing.prism.expected -;
