@@ -60,14 +60,17 @@ public:
 
     std::any visit_assign_expr(std::shared_ptr<Assign> expr) override
     {
+        return 0;
     }
 
     std::any visit_logical_expr(std::shared_ptr<Logical> expr) override
     {
+        return 0;
     }
 
     std::any visit_variable_expr(std::shared_ptr<Variable> expr) override
     {
+        return 0;
     }
 
 private:

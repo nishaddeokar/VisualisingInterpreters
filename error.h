@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 #include <sstream>
-// #include "runtime_error.h"
+#include "runtime_error.h"
 #include "token.h"
 
 // Global error state flags
@@ -74,8 +74,9 @@ void error(int line_num, std::string_view error_msg)
  * Reports a runtime error with information from the exception
  *
  * @param runtime_exception The runtime error that occurred
-
-void runtime_error(const RuntimeError& runtime_exception) {
+ */
+void runtime_error(const RuntimeError &runtime_exception)
+{
     // Construct and output the error message with line information
     std::ostringstream error_output;
     error_output << runtime_exception.what() << "\n"
@@ -86,4 +87,3 @@ void runtime_error(const RuntimeError& runtime_exception) {
     // Set the runtime error flag
     had_runtime_error = true;
 }
-*/

@@ -6,12 +6,12 @@
 #include <memory>
 #include "ast_printer.h"
 #include "error.h"
-// #include "interpreter.h"
+#include "interpreter.h"
 #include "parser.h"
 #include "lexer.h"
 
 // Environment state
-// Interpreter interpreter{};
+Interpreter interpreter{};
 
 // File operations
 std::string read_file(std::string_view filename)
@@ -51,7 +51,7 @@ void execute_source(std::string_view code)
     // Print the tokens.
     for (const Token &token : tokens)
     {
-        std::cout << token.to_string() << "\n";
+        // std::cout << token.to_string() << "\n";
     }
 
     // Step 2: Syntax analysis
@@ -64,10 +64,10 @@ void execute_source(std::string_view code)
         return;
     }
 
-    std::cout << AstPrinter{}.print(expression) << std::endl;
+    // std::cout << AstPrinter{}.print(expression) << std::endl;
 
-    // // Step 3: Execution
-    // interpreter.interpret(ast);
+    // Step 3: Execution
+    interpreter.interpret(expression);
 }
 
 void execute_file(std::string_view path)
