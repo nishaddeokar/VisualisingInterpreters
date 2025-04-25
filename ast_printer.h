@@ -163,7 +163,6 @@ private:
     }
 
 public:
-    // Public methods remain the same as before
     void visualize_expr(std::shared_ptr<Expr> expr, const std::string &output_base = "ast_expr")
     {
         init_graph();
@@ -208,7 +207,7 @@ public:
     }
 
     //----------------------------------------------
-    // Expression Visitor Methods with Improved Labels
+    // Expression Visitor Methods
     //----------------------------------------------
     std::any visit_assign_expr(std::shared_ptr<Assign> expr) override
     {
@@ -295,7 +294,7 @@ public:
     }
 
     //----------------------------------------------
-    // Statement Visitor Methods with Improved Labels
+    // Statement Visitor Methods
     //----------------------------------------------
     std::any visit_block_stmt(std::shared_ptr<Block> stmt) override
     {
