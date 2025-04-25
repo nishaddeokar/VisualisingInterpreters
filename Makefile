@@ -39,7 +39,8 @@ test-statements3 \
 test-statements4 \
 test-statements5 \
 test-statements6 \
-
+test-control-flow \
+test-control-flow2 \
 
 $(foreach test, $(TESTS), $(eval $(call make_test,$(test))))
 
