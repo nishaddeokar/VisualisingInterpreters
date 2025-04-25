@@ -9,12 +9,12 @@
 #include <vector>
 #include "error.h"
 #include "expr.h"
-// #include "stmt.h"
+#include "stmt.h"
 #include "token.h"
 #include "token_type.h"
 
 /**
- * Recursive descent parser
+ * Recursive descent parser for the Lox language
  * Transforms tokens into an abstract syntax tree
  */
 class Parser
@@ -39,235 +39,223 @@ public:
     {
     }
 
-    // /**
-    //  * Parse all statements in the token stream
-    //  * @return Vector of parsed statements
-    //  */
-    // std::vector<std::shared_ptr<Stmt>> parse()
-    // {
-    //     std::vector<std::shared_ptr<Stmt>> program_statements;
+    /**
+     * Parse all statements in the token stream
+     * @return Vector of parsed statements
+     */
+    std::vector<std::shared_ptr<Stmt>> parse()
+    {
+        std::vector<std::shared_ptr<Stmt>> program_statements;
 
-    //     // Parse all statements until end of file
-    //     while (!is_at_end())
-    //     {
-    //         program_statements.push_back(declaration());
-    //     }
+        // Parse all statements until end of file
+        while (!is_at_end())
+        {
+            program_statements.push_back(declaration());
+        }
 
-    //     return program_statements;
-    // }
+        return program_statements;
+    }
 
-    std::shared_ptr<Expr> parse()
+private:
+    //---------------------------------------------
+    // Statement parsing methods
+    //---------------------------------------------
+
+    /**
+     * Parse a declaration statement
+     */
+    std::shared_ptr<Stmt> declaration()
     {
         try
         {
-            return expression();
+            if (match(VAR))
+            {
+                return variable_declaration();
+            }
+            return statement();
         }
-        catch (ParseError error)
+        catch (ParseError &error)
         {
+            // Error recovery
+            synchronise();
             return nullptr;
         }
     }
 
-private:
-    // //---------------------------------------------
-    // // Statement parsing methods
-    // //---------------------------------------------
+    /**
+     * Parse a regular statement
+     */
+    std::shared_ptr<Stmt> statement()
+    {
+        if (match(FOR))
+            return for_statement();
+        if (match(IF))
+            return if_statement();
+        if (match(PRINT))
+            return print_statement();
+        if (match(WHILE))
+            return while_statement();
+        if (match(LEFT_BRACE))
+            return std::make_shared<Block>(block());
 
-    // /**
-    //  * Parse a declaration statement
-    //  */
-    // std::shared_ptr<Stmt> declaration()
-    // {
-    //     try
-    //     {
-    //         if (match(VAR))
-    //         {
-    //             return variable_declaration();
-    //         }
-    //         return statement();
-    //     }
-    //     catch (ParseError &error)
-    //     {
-    //         // Error recovery
-    //         recover_from_error();
-    //         return nullptr;
-    //     }
-    // }
+        return expression_statement();
+    }
 
-    // /**
-    //  * Parse a regular statement
-    //  */
-    // std::shared_ptr<Stmt> statement()
-    // {
-    //     if (match(FOR))
-    //         return for_statement();
-    //     if (match(IF))
-    //         return if_statement();
-    //     if (match(PRINT))
-    //         return print_statement();
-    //     if (match(WHILE))
-    //         return while_statement();
-    //     if (match(LEFT_BRACE))
-    //         return std::make_shared<Block>(block());
+    /**
+     * Parse a for loop statement
+     */
+    std::shared_ptr<Stmt> for_statement()
+    {
+        consume(LEFT_PAREN, "Expect '(' after 'for'.");
 
-    //     return expression_statement();
-    // }
+        // Parse initializer clause
+        std::shared_ptr<Stmt> init_clause;
+        if (match(SEMICOLON))
+        {
+            init_clause = nullptr;
+        }
+        else if (match(VAR))
+        {
+            init_clause = variable_declaration();
+        }
+        else
+        {
+            init_clause = expression_statement();
+        }
 
-    // /**
-    //  * Parse a for loop statement
-    //  */
-    // std::shared_ptr<Stmt> for_statement()
-    // {
-    //     consume(LEFT_PAREN, "Expect '(' after 'for'.");
+        // Parse condition expression
+        std::shared_ptr<Expr> condition_expr = nullptr;
+        if (!check(SEMICOLON))
+        {
+            condition_expr = expression();
+        }
+        consume(SEMICOLON, "Expect ';' after loop condition.");
 
-    //     // Parse initializer clause
-    //     std::shared_ptr<Stmt> init_clause;
-    //     if (match(SEMICOLON))
-    //     {
-    //         init_clause = nullptr;
-    //     }
-    //     else if (match(VAR))
-    //     {
-    //         init_clause = variable_declaration();
-    //     }
-    //     else
-    //     {
-    //         init_clause = expression_statement();
-    //     }
+        // Parse increment expression
+        std::shared_ptr<Expr> increment_expr = nullptr;
+        if (!check(RIGHT_PAREN))
+        {
+            increment_expr = expression();
+        }
+        consume(RIGHT_PAREN, "Expect ')' after for clauses.");
 
-    //     // Parse condition expression
-    //     std::shared_ptr<Expr> condition_expr = nullptr;
-    //     if (!check(SEMICOLON))
-    //     {
-    //         condition_expr = expression();
-    //     }
-    //     consume(SEMICOLON, "Expect ';' after loop condition.");
+        // Parse loop body
+        std::shared_ptr<Stmt> loop_body = statement();
 
-    //     // Parse increment expression
-    //     std::shared_ptr<Expr> increment_expr = nullptr;
-    //     if (!check(RIGHT_PAREN))
-    //     {
-    //         increment_expr = expression();
-    //     }
-    //     consume(RIGHT_PAREN, "Expect ')' after for clauses.");
+        // Desugar for loop into while loop structure
 
-    //     // Parse loop body
-    //     std::shared_ptr<Stmt> loop_body = statement();
+        // Add increment to end of body if it exists
+        if (increment_expr != nullptr)
+        {
+            loop_body = std::make_shared<Block>(
+                std::vector<std::shared_ptr<Stmt>>{
+                    loop_body,
+                    std::make_shared<Expression>(increment_expr)});
+        }
 
-    //     // Desugar for loop into while loop structure
+        // Create while loop with condition (or true if none provided)
+        if (condition_expr == nullptr)
+        {
+            condition_expr = std::make_shared<Literal>(true);
+        }
+        loop_body = std::make_shared<While>(condition_expr, loop_body);
 
-    //     // Add increment to end of body if it exists
-    //     if (increment_expr != nullptr)
-    //     {
-    //         loop_body = std::make_shared<Block>(
-    //             std::vector<std::shared_ptr<Stmt>>{
-    //                 loop_body,
-    //                 std::make_shared<Expression>(increment_expr)});
-    //     }
+        // Add initializer before while loop if it exists
+        if (init_clause != nullptr)
+        {
+            loop_body = std::make_shared<Block>(
+                std::vector<std::shared_ptr<Stmt>>{init_clause, loop_body});
+        }
 
-    //     // Create while loop with condition (or true if none provided)
-    //     if (condition_expr == nullptr)
-    //     {
-    //         condition_expr = std::make_shared<Literal>(true);
-    //     }
-    //     loop_body = std::make_shared<While>(condition_expr, loop_body);
+        return loop_body;
+    }
 
-    //     // Add initializer before while loop if it exists
-    //     if (init_clause != nullptr)
-    //     {
-    //         loop_body = std::make_shared<Block>(
-    //             std::vector<std::shared_ptr<Stmt>>{init_clause, loop_body});
-    //     }
+    /**
+     * Parse an if statement
+     */
+    std::shared_ptr<Stmt> if_statement()
+    {
+        consume(LEFT_PAREN, "Expect '(' after 'if'.");
+        std::shared_ptr<Expr> condition_expr = expression();
+        consume(RIGHT_PAREN, "Expect ')' after if condition.");
 
-    //     return loop_body;
-    // }
+        std::shared_ptr<Stmt> then_branch = statement();
+        std::shared_ptr<Stmt> else_branch = nullptr;
 
-    // /**
-    //  * Parse an if statement
-    //  */
-    // std::shared_ptr<Stmt> if_statement()
-    // {
-    //     consume(LEFT_PAREN, "Expect '(' after 'if'.");
-    //     std::shared_ptr<Expr> condition_expr = expression();
-    //     consume(RIGHT_PAREN, "Expect ')' after if condition.");
+        if (match(ELSE))
+        {
+            else_branch = statement();
+        }
 
-    //     std::shared_ptr<Stmt> then_branch = statement();
-    //     std::shared_ptr<Stmt> else_branch = nullptr;
+        return std::make_shared<If>(condition_expr, then_branch, else_branch);
+    }
 
-    //     if (match(ELSE))
-    //     {
-    //         else_branch = statement();
-    //     }
+    /**
+     * Parse a print statement
+     */
+    std::shared_ptr<Stmt> print_statement()
+    {
+        std::shared_ptr<Expr> value_expr = expression();
+        consume(SEMICOLON, "Expect ';' after value.");
+        return std::make_shared<Print>(value_expr);
+    }
 
-    //     return std::make_shared<If>(condition_expr, then_branch, else_branch);
-    // }
+    /**
+     * Parse a variable declaration
+     */
+    std::shared_ptr<Stmt> variable_declaration()
+    {
+        Token var_name = consume(IDENTIFIER, "Expect variable name.");
 
-    // /**
-    //  * Parse a print statement
-    //  */
-    // std::shared_ptr<Stmt> print_statement()
-    // {
-    //     std::shared_ptr<Expr> value_expr = expression();
-    //     consume(SEMICOLON, "Expect ';' after value.");
-    //     return std::make_shared<Print>(value_expr);
-    // }
+        std::shared_ptr<Expr> init_expr = nullptr;
+        if (match(EQUAL))
+        {
+            init_expr = expression();
+        }
 
-    // /**
-    //  * Parse a variable declaration
-    //  */
-    // std::shared_ptr<Stmt> variable_declaration()
-    // {
-    //     Token var_name = consume(IDENTIFIER, "Expect variable name.");
+        consume(SEMICOLON, "Expect ';' after variable declaration.");
+        return std::make_shared<Var>(std::move(var_name), init_expr);
+    }
 
-    //     std::shared_ptr<Expr> init_expr = nullptr;
-    //     if (match(EQUAL))
-    //     {
-    //         init_expr = expression();
-    //     }
+    /**
+     * Parse a while statement
+     */
+    std::shared_ptr<Stmt> while_statement()
+    {
+        consume(LEFT_PAREN, "Expect '(' after 'while'.");
+        std::shared_ptr<Expr> condition_expr = expression();
+        consume(RIGHT_PAREN, "Expect ')' after condition.");
+        std::shared_ptr<Stmt> body_stmt = statement();
 
-    //     consume(SEMICOLON, "Expect ';' after variable declaration.");
-    //     return std::make_shared<Var>(std::move(var_name), init_expr);
-    // }
+        return std::make_shared<While>(condition_expr, body_stmt);
+    }
 
-    // /**
-    //  * Parse a while statement
-    //  */
-    // std::shared_ptr<Stmt> while_statement()
-    // {
-    //     consume(LEFT_PAREN, "Expect '(' after 'while'.");
-    //     std::shared_ptr<Expr> condition_expr = expression();
-    //     consume(RIGHT_PAREN, "Expect ')' after condition.");
-    //     std::shared_ptr<Stmt> body_stmt = statement();
+    /**
+     * Parse an expression statement
+     */
+    std::shared_ptr<Stmt> expression_statement()
+    {
+        std::shared_ptr<Expr> expr_value = expression();
+        consume(SEMICOLON, "Expect ';' after expression.");
+        return std::make_shared<Expression>(expr_value);
+    }
 
-    //     return std::make_shared<While>(condition_expr, body_stmt);
-    // }
+    /**
+     * Parse a block of statements
+     */
+    std::vector<std::shared_ptr<Stmt>> block()
+    {
+        std::vector<std::shared_ptr<Stmt>> statements;
 
-    // /**
-    //  * Parse an expression statement
-    //  */
-    // std::shared_ptr<Stmt> expression_statement()
-    // {
-    //     std::shared_ptr<Expr> expr_value = expression();
-    //     consume(SEMICOLON, "Expect ';' after expression.");
-    //     return std::make_shared<Expression>(expr_value);
-    // }
+        // Parse statements until end of block or EOF
+        while (!check(RIGHT_BRACE) && !is_at_end())
+        {
+            statements.push_back(declaration());
+        }
 
-    // /**
-    //  * Parse a block of statements
-    //  */
-    // std::vector<std::shared_ptr<Stmt>> block()
-    // {
-    //     std::vector<std::shared_ptr<Stmt>> statements;
-
-    //     // Parse statements until end of block or EOF
-    //     while (!check(RIGHT_BRACE) && !is_at_end())
-    //     {
-    //         statements.push_back(declaration());
-    //     }
-
-    //     consume(RIGHT_BRACE, "Expect '}' after block.");
-    //     return statements;
-    // }
+        consume(RIGHT_BRACE, "Expect '}' after block.");
+        return statements;
+    }
 
     //---------------------------------------------
     // Expression parsing methods - recursive descent
@@ -563,9 +551,9 @@ private:
     }
 
     /**
-     * Synchronize parser state after error
+     * Synchronise parser state after error
      */
-    void recover_from_error()
+    void synchronise()
     {
         advance();
 

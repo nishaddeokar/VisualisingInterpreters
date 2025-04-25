@@ -42,21 +42,24 @@ std::string read_file(std::string_view filename)
 }
 
 // Execution functions
-void execute_source(std::string_view code)
+void run(std::string_view code)
 {
     // Step 1: Lexical analysis
     Lexer lexer{code};
     std::vector<Token> tokens = lexer.scan_tokens();
 
+    /*
     // Print the tokens.
     for (const Token &token : tokens)
     {
-        // std::cout << token.to_string() << "\n";
+        std::cout << token.to_string() << "\n";
     }
+    */
 
     // Step 2: Syntax analysis
     Parser parser{tokens};
-    std::shared_ptr<Expr> expression = parser.parse();
+    // std::shared_ptr<Expr> expression = parser.parse();
+    std::vector<std::shared_ptr<Stmt>> statements = parser.parse();
 
     // Stop if syntax errors were found
     if (had_error)
@@ -67,14 +70,14 @@ void execute_source(std::string_view code)
     // std::cout << AstPrinter{}.print(expression) << std::endl;
 
     // Step 3: Execution
-    interpreter.interpret(expression);
+    interpreter.interpret(statements);
 }
 
 void execute_file(std::string_view path)
 {
     // Load and execute the file
     auto source = read_file(path);
-    execute_source(source);
+    run(source);
 
     // Handle errors with appropriate exit codes
     if (had_error)
@@ -107,7 +110,7 @@ void interactive_shell()
         }
 
         // Execute the entered code
-        execute_source(input_line);
+        run(input_line);
 
         // Reset error state for next line
         had_error = false;
