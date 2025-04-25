@@ -13,6 +13,9 @@
 // Environment state
 Interpreter interpreter{};
 
+// Visualization mode flag
+bool visual_mode = false;
+
 // File operations
 std::string read_file(std::string_view filename)
 {
@@ -42,23 +45,14 @@ std::string read_file(std::string_view filename)
 }
 
 // Execution functions
-void run(std::string_view code)
+void run(std::string_view code, bool is_interactive = false)
 {
     // Step 1: Lexical analysis
     Lexer lexer{code};
     std::vector<Token> tokens = lexer.scan_tokens();
 
-    /*
-    // Print the tokens.
-    for (const Token &token : tokens)
-    {
-        std::cout << token.to_string() << "\n";
-    }
-    */
-
     // Step 2: Syntax analysis
     Parser parser{tokens};
-    // std::shared_ptr<Expr> expression = parser.parse();
     std::vector<std::shared_ptr<Stmt>> statements = parser.parse();
 
     // Stop if syntax errors were found
@@ -67,9 +61,27 @@ void run(std::string_view code)
         return;
     }
 
-    // std::cout << AstPrinter{}.print(expression) << std::endl;
+    // Step 3: Visualization if in visual mode
+    if (visual_mode)
+    {
+        AstPrinter printer;
+        if (is_interactive)
+        {
+            // For interactive mode, visualize each statement separately
+            // and reuse the same output file
+            if (!statements.empty())
+            {
+                printer.visualize_stmt(statements.back(), "ast");
+            }
+        }
+        else
+        {
+            // For file execution, visualize the whole program
+            printer.visualize_program(statements, "program_ast");
+        }
+    }
 
-    // Step 3: Execution
+    // Step 4: Execution
     interpreter.interpret(statements);
 }
 
@@ -77,7 +89,7 @@ void execute_file(std::string_view path)
 {
     // Load and execute the file
     auto source = read_file(path);
-    run(source);
+    run(source, false); // Not interactive
 
     // Handle errors with appropriate exit codes
     if (had_error)
@@ -95,6 +107,13 @@ void interactive_shell()
 {
     std::string input_line;
 
+    std::cout << "Prism";
+    if (visual_mode)
+    {
+        std::cout << " (Visual Mode)";
+    }
+    std::cout << "\n";
+
     while (true)
     {
         // Display prompt
@@ -110,7 +129,7 @@ void interactive_shell()
         }
 
         // Execute the entered code
-        run(input_line);
+        run(input_line, true); // Interactive mode
 
         // Reset error state for next line
         had_error = false;
@@ -119,9 +138,23 @@ void interactive_shell()
 
 int main(int argc, char *argv[])
 {
+    for (int i = 1; i < argc; i++)
+    {
+        if (std::string(argv[i]) == "-v" || std::string(argv[i]) == "--visual")
+        {
+            visual_mode = true;
+            // Shift remaining arguments left
+            for (int j = i; j < argc - 1; j++)
+            {
+                argv[j] = argv[j + 1];
+            }
+            argc--; // One less argument to process
+            break;  // Only handle the first occurrence
+        }
+    }
     if (argc > 2)
     {
-        std::cout << "Usage: prism [script]\n";
+        std::cout << "Usage: prism [-v] [script]\n";
         std::exit(64);
     }
     else if (argc == 2)
