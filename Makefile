@@ -2,8 +2,12 @@ CXX      := g++
 CXXFLAGS := -ggdb -std=c++17
 CPPFLAGS := -MMD
 
-# Static linking with custom-built Graphviz
-GRAPHVIZ_LIBS := -L/usr/local/lib -lgvc -lcgraph -lcdt -lexpat -lz -lm -lpangocairo-1.0 -lcairo -lpango-1.0 -lgobject-2.0 -lglib-2.0
+# Apple Silicon Mac GraphViz directories (Homebrew)
+GRAPHVIZ_INCLUDE := -I/opt/homebrew/include
+GRAPHVIZ_LIBS    := -L/opt/homebrew/lib -lgvc -lcgraph
+
+# Add GraphViz include path to compilation flags
+CPPFLAGS += $(GRAPHVIZ_INCLUDE)
 
 COMPILE  := $(CXX) $(CXXFLAGS) $(CPPFLAGS)
 
