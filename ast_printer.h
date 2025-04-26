@@ -127,19 +127,22 @@ private:
         return "unknown";
     }
 
-    // Generate output files and display the visualization
     void generate_output(const std::string &base_filename)
     {
         // Write DOT file
-        std::string dot_file = base_filename + ".dot";
-        std::string png_file = base_filename + ".png";
+        std::string dot_file = "images\\" + base_filename + ".dot";
+        std::string png_file = "images\\" + base_filename + ".png";
 
         std::ofstream out_file(dot_file);
         out_file << dot_output.str();
         out_file.close();
 
-        // Convert DOT to PNG using GraphViz
-        std::string cmd = "dot -Tpng " + dot_file + " -o " + png_file;
+        // Since dot.exe is in the same folder as our executable, get that path
+        std::string dot_cmd;
+        dot_cmd = "lib\\dot.exe";
+
+        // Run the command
+        std::string cmd = dot_cmd + " -Tpng \"" + dot_file + "\" -o \"" + png_file + "\"";
         int result = system(cmd.c_str());
 
         if (result == 0)
