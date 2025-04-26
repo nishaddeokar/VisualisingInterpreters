@@ -2,6 +2,9 @@ CXX      := g++
 CXXFLAGS := -ggdb -std=c++17
 CPPFLAGS := -MMD
 
+# Static linking with custom-built Graphviz
+GRAPHVIZ_LIBS := -L/usr/local/lib -lgvc -lcgraph -lcdt -lexpat -lz -lm -lpangocairo-1.0 -lcairo -lpango-1.0 -lgobject-2.0 -lglib-2.0
+
 COMPILE  := $(CXX) $(CXXFLAGS) $(CPPFLAGS)
 
 SRCS     := ast_printer_driver.cpp prism.cpp
@@ -9,11 +12,11 @@ DEPS     := $(SRCS:.cpp=.d)
 
 
 prism: expr.h stmt.h prism.o
-	@$(COMPILE) prism.o -o $@
+	@$(COMPILE) prism.o -o $@ $(GRAPHVIZ_LIBS)
 
 
 ast_printer: expr.h stmt.h ast_printer_driver.o
-	@$(COMPILE) ast_printer_driver.o -o $@
+	@$(COMPILE) ast_printer_driver.o -o $@ $(GRAPHVIZ_LIBS)
 
 
 .PHONY: clean
