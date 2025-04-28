@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <iomanip>
 #include "ast_printer.h"
+#include "token_printer.h"
 #include "error.h"
 #include "interpreter.h"
 #include "parser.h"
@@ -13,8 +15,9 @@
 // Environment state
 Interpreter interpreter{};
 
-// Visualization mode flag
+// Visualization mode flags
 bool visual_mode = false;
+bool token_mode = false; // New flag for token visualization
 
 // File operations
 std::string read_file(std::string_view filename)
@@ -50,6 +53,13 @@ void run(std::string_view code, bool is_interactive = false)
     // Step 1: Lexical analysis
     Lexer lexer{code};
     std::vector<Token> tokens = lexer.scan_tokens();
+
+    // Step 1.5: Token visualization if in token mode
+    if (token_mode)
+    {
+        TokenPrinter token_printer;
+        token_printer.visualize_tokens(code, tokens);
+    }
 
     // Step 2: Syntax analysis
     Parser parser{tokens};
@@ -112,6 +122,10 @@ void interactive_shell()
     {
         std::cout << " (Visual Mode)";
     }
+    if (token_mode)
+    {
+        std::cout << " (Token Mode)";
+    }
     std::cout << "\n";
 
     while (true)
@@ -140,6 +154,7 @@ int main(int argc, char *argv[])
 {
     for (int i = 1; i < argc; i++)
     {
+        // Handle visual mode flag
         if (std::string(argv[i]) == "-v" || std::string(argv[i]) == "--visual")
         {
             visual_mode = true;
@@ -149,12 +164,28 @@ int main(int argc, char *argv[])
                 argv[j] = argv[j + 1];
             }
             argc--; // One less argument to process
-            break;  // Only handle the first occurrence
+            i--;    // Process the current position again
+            continue;
+        }
+
+        // Handle token mode flag
+        if (std::string(argv[i]) == "-t" || std::string(argv[i]) == "--token")
+        {
+            token_mode = true;
+            // Shift remaining arguments left
+            for (int j = i; j < argc - 1; j++)
+            {
+                argv[j] = argv[j + 1];
+            }
+            argc--; // One less argument to process
+            i--;    // Process the current position again
+            continue;
         }
     }
+
     if (argc > 2)
     {
-        std::cout << "Usage: prism [-v] [script]\n";
+        std::cout << "Usage: prism [-v] [-t] [script]\n";
         std::exit(64);
     }
     else if (argc == 2)
