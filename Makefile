@@ -98,97 +98,97 @@ test-expressions2:
 
 .PHONY: dist
 dist: prism
-	mkdir -p prism_app
-	mkdir -p prism_app/lib
-	mkdir -p prism_app/images
+	mkdir -p release
+	mkdir -p release/lib
+	mkdir -p release/images
 
-	cp prism.exe prism_app/
-	cp "C:\Program Files\Graphviz\bin\dot.exe" prism_app/lib/
+	cp prism.exe release/
+	cp "C:\Program Files\Graphviz\bin\dot.exe" release/lib/
 
 	# GraphViz core DLLs
-	cp "C:\Program Files\Graphviz\bin\gvc.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvc++.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\cgraph.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\cgraph++.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\cdt.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\xdot.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\pathplan.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\gvc.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvc++.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\cgraph.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\cgraph++.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\cdt.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\xdot.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\pathplan.dll" release/lib/
 
 	# GraphViz plugins
-	cp "C:\Program Files\Graphviz\bin\gvplugin_core.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_dot_layout.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_neato_layout.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_gd.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_gdiplus.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_pango.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_vt.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_webp.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gvplugin_kitty.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_core.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_dot_layout.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_neato_layout.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_gd.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_gdiplus.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_pango.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_vt.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_webp.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gvplugin_kitty.dll" release/lib/
 
 	# Tcl support
-	cp "C:\Program Files\Graphviz\bin\gdtclft.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\tcl86t.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\tcldot.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\tcldot_builtin.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\tclplan.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\gdtclft.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\tcl86t.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\tcldot.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\tcldot_builtin.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\tclplan.dll" release/lib/
 
 	# Pango and font rendering
-	cp "C:\Program Files\Graphviz\bin\pango-1.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\pangocairo-1.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\pangoft2-1.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\pangowin32-1.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\harfbuzz.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\freetype.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\fontconfig-1.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\fribidi-0.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\pango-1.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\pangocairo-1.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\pangoft2-1.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\pangowin32-1.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\harfbuzz.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\freetype.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\fontconfig-1.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\fribidi-0.dll" release/lib/
 
 	# GLib and related
-	cp "C:\Program Files\Graphviz\bin\glib-2.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gobject-2.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gmodule-2.0-0.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\gio-2.0-0.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\glib-2.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gobject-2.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gmodule-2.0-0.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\gio-2.0-0.dll" release/lib/
 
 	# Image handling
-	cp "C:\Program Files\Graphviz\bin\cairo-2.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\libgd.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\libpng16.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\jpeg62.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\tiff.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\libwebp.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\libsharpyuv.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\pixman-1-0.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\cairo-2.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\libgd.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\libpng16.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\jpeg62.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\tiff.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\libwebp.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\libsharpyuv.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\pixman-1-0.dll" release/lib/
 
 	# Compression and utilities
-	cp "C:\Program Files\Graphviz\bin\zlib1.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\liblzma.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\bz2.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\brotlicommon.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\brotlidec.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\pcre2-8.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\libexpat.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\iconv-2.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\intl-8.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\ffi-8.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\zlib1.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\liblzma.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\bz2.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\brotlicommon.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\brotlidec.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\pcre2-8.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\libexpat.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\iconv-2.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\intl-8.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\ffi-8.dll" release/lib/
 
 	# Other GraphViz libraries
-	cp "C:\Program Files\Graphviz\bin\gts.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\getopt.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\ANN.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\gts.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\getopt.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\ANN.dll" release/lib/
 
 	# Visual C++ Runtime DLLs
-	cp "C:\Program Files\Graphviz\bin\vcruntime140.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\vcruntime140_1.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\msvcp140.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\msvcp140_1.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\msvcp140_2.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\msvcp140_atomic_wait.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\msvcp140_codecvt_ids.dll" prism_app/lib/
-	cp "C:\Program Files\Graphviz\bin\concrt140.dll" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\vcruntime140.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\vcruntime140_1.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\msvcp140.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\msvcp140_1.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\msvcp140_2.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\msvcp140_atomic_wait.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\msvcp140_codecvt_ids.dll" release/lib/
+	cp "C:\Program Files\Graphviz\bin\concrt140.dll" release/lib/
 
 	# MinGW runtime DLLs (already included)
-	cp "C:\msys64\mingw64\bin\libgcc_s_seh-1.dll" prism_app/lib/
-	cp "C:\msys64\mingw64\bin\libstdc++-6.dll" prism_app/lib/
-	cp "C:\msys64\mingw64\bin\libwinpthread-1.dll" prism_app/lib/
+	cp "C:\msys64\mingw64\bin\libgcc_s_seh-1.dll" release/lib/
+	cp "C:\msys64\mingw64\bin\libstdc++-6.dll" release/lib/
+	cp "C:\msys64\mingw64\bin\libwinpthread-1.dll" release/lib/
 
 	# GraphViz configuration
-	cp "C:\Program Files\Graphviz\bin\config6" prism_app/lib/
+	cp "C:\Program Files\Graphviz\bin\config6" release/lib/
