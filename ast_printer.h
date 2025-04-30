@@ -156,7 +156,7 @@ private:
 
             std::cout << "AST visualisation created: " << png_file << std::endl;
         }
-        elsvisualisatione
+        else
         {
             std::cerr << "Failed to generate visualisation. Make sure GraphViz is installed." << std::endl;
         }
