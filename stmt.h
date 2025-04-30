@@ -141,18 +141,18 @@ struct Print : Stmt, public std::enable_shared_from_this<Print>
 
 /**
  * Represents a variable declaration
- * Example: var name = initializer;
+ * Example: var name = initialiser;
  */
 struct Var : Stmt, public std::enable_shared_from_this<Var>
 {
     // Member variables
     const Token name;
-    const std::shared_ptr<Expr> initializer;
+    const std::shared_ptr<Expr> initialiser;
 
     // Constructor
     Var(Token var_name, std::shared_ptr<Expr> init_expr)
         : name{std::move(var_name)},
-          initializer{std::move(init_expr)}
+          initialiser{std::move(init_expr)}
     {
     }
 

@@ -1,0 +1,20 @@
+digraph AST {
+  node [shape=box, fontname="Arial", fontsize=10];
+  node0 [label="Var
+name: result", style="filled", fillcolor="#98ff9d"];
+  node1 [label="Binary
+operator: +", style="filled", fillcolor="#c9e7ff"];
+  node2 [label="Literal
+value: 2", style="filled", fillcolor="#fefeca"];
+  node3 [label="Binary
+operator: *", style="filled", fillcolor="#c9e7ff"];
+  node4 [label="Literal
+value: 3", style="filled", fillcolor="#fefeca"];
+  node5 [label="Literal
+value: 4", style="filled", fillcolor="#fefeca"];
+  node3 -> node4;
+  node3 -> node5;
+  node1 -> node2;
+  node1 -> node3;
+  node0 -> node1;
+}

@@ -8,7 +8,7 @@
 #include "token.h"
 
 /**
- * Token Printer - Creates colorized terminal output for token streams
+ * Token Printer - Creates colorised terminal output for token streams
  * Shows source code with syntax highlighting and token details
  */
 class TokenPrinter
@@ -55,7 +55,7 @@ public:
     /**
      * Display the source code with syntax highlighting
      */
-    void print_colorized_source(std::string_view source, const std::vector<Token> &tokens)
+    void print_colorised_source(std::string_view source, const std::vector<Token> &tokens)
     {
         std::cout << BOLD << "\n=== SOURCE CODE WITH HIGHLIGHTING ===" << RESET << "\n\n";
 
@@ -188,11 +188,11 @@ public:
     }
 
     /**
-     * Visualize tokens with both colorized source and token details
+     * Visualise tokens with both colorised source and token details
      */
-    void visualize_tokens(std::string_view source, const std::vector<Token> &tokens)
+    void visualise_tokens(std::string_view source, const std::vector<Token> &tokens)
     {
-        print_colorized_source(source, tokens);
+        print_colorised_source(source, tokens);
         print_token_list(tokens);
     }
 };

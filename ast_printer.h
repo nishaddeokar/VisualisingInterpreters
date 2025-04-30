@@ -14,7 +14,7 @@
 #include "stmt.h"
 
 /**
- * AST Visualizer - Creates GraphViz dot representations of abstract syntax trees
+ * AST Visualiser - Creates GraphViz dot representations of abstract syntax trees
  * Implements both expression and statement visitors with improved node formatting
  */
 class AstPrinter : public ExprVisitor, public StmtVisitor
@@ -31,7 +31,7 @@ private:
     // The DOT file content
     std::ostringstream dot_output;
 
-    // Initialize the DOT file structure
+    // Initialise the DOT file structure
     void init_graph()
     {
         node_counter = 0;
@@ -41,8 +41,8 @@ private:
         dot_output << "  node [shape=box, fontname=\"Arial\", fontsize=10];\n";
     }
 
-    // Finalize the DOT file
-    void finalize_graph()
+    // Finalise the DOT file
+    void finalise_graph()
     {
         dot_output << "}\n";
     }
@@ -105,7 +105,7 @@ private:
         return result;
     }
 
-    // Convert any value to string for visualization with improved formatting
+    // Convert any value to string for visualisation with improved formatting
     std::string any_to_string(const std::any &value)
     {
         if (value.type() == typeid(nullptr))
@@ -127,7 +127,7 @@ private:
         return "unknown";
     }
 
-    // Generate output files and display the visualization
+    // Generate output files and display the visualisation
     void generate_output(const std::string &base_filename)
     {
         // Write DOT file
@@ -139,7 +139,7 @@ private:
         out_file.close();
 
         // Convert DOT to PNG using GraphViz
-        std::string cmd = "dot -Tpng " + dot_file + " -o " + png_file;
+        std::string cmd = "dot -Tpng -Gdpi=600 " + dot_file + " -o " + png_file;
         int result = system(cmd.c_str());
 
         if (result == 0)
@@ -154,32 +154,32 @@ private:
 #endif
             system(cmd.c_str());
 
-            std::cout << "AST visualization created: " << png_file << std::endl;
+            std::cout << "AST visualisation created: " << png_file << std::endl;
         }
-        else
+        elsvisualisatione
         {
-            std::cerr << "Failed to generate visualization. Make sure GraphViz is installed." << std::endl;
+            std::cerr << "Failed to generate visualisation. Make sure GraphViz is installed." << std::endl;
         }
     }
 
 public:
-    void visualize_expr(std::shared_ptr<Expr> expr, const std::string &output_base = "ast_expr")
+    void visualise_expr(std::shared_ptr<Expr> expr, const std::string &output_base = "ast_expr")
     {
         init_graph();
         std::any root_id = expr->accept(*this);
-        finalize_graph();
+        finalise_graph();
         generate_output(output_base);
     }
 
-    void visualize_stmt(std::shared_ptr<Stmt> stmt, const std::string &output_base = "ast_stmt")
+    void visualise_stmt(std::shared_ptr<Stmt> stmt, const std::string &output_base = "ast_stmt")
     {
         init_graph();
         std::any root_id = stmt->accept(*this);
-        finalize_graph();
+        finalise_graph();
         generate_output(output_base);
     }
 
-    void visualize_program(const std::vector<std::shared_ptr<Stmt>> &stmts,
+    void visualise_program(const std::vector<std::shared_ptr<Stmt>> &stmts,
                            const std::string &output_base = "ast_program")
     {
         init_graph();
@@ -194,7 +194,7 @@ public:
             create_edge(program_node, stmt_node);
         }
 
-        finalize_graph();
+        finalise_graph();
         generate_output(output_base);
     }
 
@@ -202,7 +202,7 @@ public:
     {
         init_graph();
         std::string root_id = std::any_cast<std::string>(expr->accept(*this));
-        finalize_graph();
+        finalise_graph();
         return dot_output.str();
     }
 
@@ -365,10 +365,10 @@ public:
         std::string label = "Var\nname: " + stmt->name.lexeme;
         std::string var_node = create_node(label, VARIABLE_COLOR);
 
-        // Create node for initializer if present
-        if (stmt->initializer)
+        // Create node for initialiser if present
+        if (stmt->initialiser)
         {
-            std::string init_node = std::any_cast<std::string>(stmt->initializer->accept(*this));
+            std::string init_node = std::any_cast<std::string>(stmt->initialiser->accept(*this));
             create_edge(var_node, init_node);
         }
 

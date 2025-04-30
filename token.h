@@ -51,7 +51,7 @@ public:
     const std::any value;
     const int line_number;
 
-    // Constructor to initialize all fields
+    // Constructor to initialise all fields
     Token(TokenType token_type, std::string text, std::any literal_value, int source_line)
         : type(token_type),
           lexeme(std::move(text)),

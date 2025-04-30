@@ -64,7 +64,7 @@ private:
         }
 
         // Unknown type
-        return "Error in to_string: unrecognized value type";
+        return "Error in to_string: unrecognised value type";
     }
 
     /**
@@ -282,11 +282,11 @@ public:
      */
     std::any visit_var_stmt(std::shared_ptr<Var> stmt) override
     {
-        // Evaluate initializer if present, otherwise nil
+        // Evaluate initialiser if present, otherwise nil
         std::any initial_value = nullptr;
-        if (stmt->initializer != nullptr)
+        if (stmt->initialiser != nullptr)
         {
-            initial_value = eval_expression(stmt->initializer);
+            initial_value = eval_expression(stmt->initialiser);
         }
 
         // Define variable in current environment

@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     // If no valid choice from command line, prompt user
     if (choice < 1 || choice > 6)
     {
-        std::cout << "Select an AST visualization example:\n"
+        std::cout << "Select an AST visualisation example:\n"
                   << "1. Simple Expression (5 + 3)\n"
                   << "2. Complex Nested Expression ((2 * (3 + 4)) > (8 - 3) && !false)\n"
                   << "3. Simple Statement (print \"Hello, world!\")\n"
@@ -83,9 +83,9 @@ void simple_expression()
         Token{PLUS, "+", nullptr, 1},
         std::make_shared<Literal>(3.0));
 
-    // Visualize the expression
+    // Visualise the expression
     AstPrinter printer;
-    printer.visualize_expr(expression, "simple_expression_ast");
+    printer.visualise_expr(expression, "simple_expression_ast");
 }
 
 void complex_expression()
@@ -130,9 +130,9 @@ void complex_expression()
         Token{AND, "&&", nullptr, 1},
         not_false);
 
-    // Visualize the expression
+    // Visualise the expression
     AstPrinter printer;
-    printer.visualize_expr(std::make_shared<Grouping>(logical_expr), "complex_expression_ast");
+    printer.visualise_expr(std::make_shared<Grouping>(logical_expr), "complex_expression_ast");
 }
 
 // Example 3: Simple statement (print "Hello, world!")
@@ -144,9 +144,9 @@ void simple_statement()
     auto print_stmt = std::make_shared<Print>(
         std::make_shared<Literal>(std::string("Hello, world!")));
 
-    // Visualize the statement
+    // Visualise the statement
     AstPrinter printer;
-    printer.visualize_stmt(print_stmt, "simple_statement_ast");
+    printer.visualise_stmt(print_stmt, "simple_statement_ast");
 }
 
 // Example 4: Complex statement (if-else with block)
@@ -178,9 +178,9 @@ void complex_statement()
     // Create if statement
     auto if_stmt = std::make_shared<If>(condition, then_block, else_block);
 
-    // Visualize the statement
+    // Visualise the statement
     AstPrinter printer;
-    printer.visualize_stmt(if_stmt, "complex_statement_ast");
+    printer.visualise_stmt(if_stmt, "complex_statement_ast");
 }
 
 // Example 5: Short program (variable declaration and print)
@@ -203,9 +203,9 @@ void short_program()
         std::make_shared<Variable>(Token{IDENTIFIER, "message", "message", 2}));
     program.push_back(print_stmt);
 
-    // Visualize the program
+    // Visualise the program
     AstPrinter printer;
-    printer.visualize_program(program, "short_program_ast");
+    printer.visualise_program(program, "short_program_ast");
 }
 
 // Example 6: Longer program (variables, if, while)
@@ -299,7 +299,7 @@ void long_program()
 
     program.push_back(if_stmt);
 
-    // Visualize the program
+    // Visualise the program
     AstPrinter printer;
-    printer.visualize_program(program, "long_program_ast");
+    printer.visualise_program(program, "long_program_ast");
 }

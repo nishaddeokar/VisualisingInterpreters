@@ -108,7 +108,7 @@ private:
     {
         consume(LEFT_PAREN, "Expect '(' after 'for'.");
 
-        // Parse initializer clause
+        // Parse initialiser clause
         std::shared_ptr<Stmt> init_clause;
         if (match(SEMICOLON))
         {
@@ -160,7 +160,7 @@ private:
         }
         loop_body = std::make_shared<While>(condition_expr, loop_body);
 
-        // Add initializer before while loop if it exists
+        // Add initialiser before while loop if it exists
         if (init_clause != nullptr)
         {
             loop_body = std::make_shared<Block>(
