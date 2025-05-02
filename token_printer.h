@@ -57,7 +57,7 @@ public:
      */
     void print_colorised_source(std::string_view source, const std::vector<Token> &tokens)
     {
-        std::cout << BOLD << "\n=== SOURCE CODE WITH HIGHLIGHTING ===" << RESET << "\n\n";
+        std::cout << BOLD << "\nSOURCE CODE WITH HIGHLIGHTING" << RESET << "\n\n";
 
         // Create a map of positions to tokens for coloring
         std::vector<std::pair<size_t, const Token *>> token_positions;
@@ -144,7 +144,7 @@ public:
      */
     void print_token_list(const std::vector<Token> &tokens)
     {
-        std::cout << BOLD << "=== TOKEN LIST ===" << RESET << "\n\n";
+        std::cout << BOLD << "TOKEN LIST" << RESET << "\n\n";
 
         // Group tokens by line number
         std::map<int, std::vector<const Token *>> tokens_by_line;

@@ -21,9 +21,9 @@ class AstPrinter : public ExprVisitor, public StmtVisitor
 {
 private:
     // Color constants for different node types
-    const std::string CONTROL_COLOR = "#c9e7ff";  // Light blue for control structures, statements, operations
-    const std::string VARIABLE_COLOR = "#98ff9d"; // Light green for variables
-    const std::string CONSTANT_COLOR = "#fefeca"; // Light yellow for constants
+    const std::string CONTROL_COLOR = "#c8e6fe";  // Light blue for control structures, statements, operations
+    const std::string VARIABLE_COLOR = "#a7fe9c"; // Light green for variables
+    const std::string CONSTANT_COLOR = "#fefdc9"; // Light yellow for constants
 
     // For generating unique node IDs
     int node_counter = 0;
