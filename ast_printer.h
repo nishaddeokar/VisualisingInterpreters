@@ -20,10 +20,10 @@
 class AstPrinter : public ExprVisitor, public StmtVisitor
 {
 private:
-    // Color constants for different node types
-    const std::string CONTROL_COLOR = "#c8e6fe";  // Light blue for control structures, statements, operations
-    const std::string VARIABLE_COLOR = "#a7fe9c"; // Light green for variables
-    const std::string CONSTANT_COLOR = "#fefdc9"; // Light yellow for constants
+    // Colour constants for different node types
+    const std::string CONTROL_COLOUR = "#c8e6fe";  // Light blue for control structures, statements, operations
+    const std::string VARIABLE_COLOUR = "#a7fe9c"; // Light green for variables
+    const std::string CONSTANT_COLOUR = "#fefdc9"; // Light yellow for constants
 
     // For generating unique node IDs
     int node_counter = 0;
@@ -75,12 +75,12 @@ private:
         return oss.str();
     }
 
-    // Create a new node with multi-line label and color
-    std::string create_node(const std::string &label, const std::string &color = "white")
+    // Create a new node with multi-line label and colour
+    std::string create_node(const std::string &label, const std::string &colour = "white")
     {
         std::string node_id = "node" + std::to_string(node_counter++);
         dot_output << "  " << node_id << " [label=\"" << escape_label(label)
-                   << "\", style=\"filled\", fillcolor=\"" << color << "\"];\n";
+                   << "\", style=\"filled\", fillcolor=\"" << colour << "\"];\n";
         return node_id;
     }
 
@@ -188,7 +188,7 @@ public:
         init_graph();
 
         // Create a special root node for the program
-        std::string program_node = create_node("Program", CONTROL_COLOR);
+        std::string program_node = create_node("Program", CONTROL_COLOUR);
 
         // Connect each statement to the program node
         for (const auto &stmt : stmts)
@@ -216,7 +216,7 @@ public:
     {
         // Create multi-line node for assignment
         std::string label = "Assign\nname: " + expr->var_name.lexeme;
-        std::string assign_node = create_node(label, CONTROL_COLOR);
+        std::string assign_node = create_node(label, CONTROL_COLOUR);
 
         // Create node for value and connect
         std::string value_node = std::any_cast<std::string>(expr->expr_value->accept(*this));
@@ -229,7 +229,7 @@ public:
     {
         // Create multi-line node for binary operator
         std::string label = "Binary\noperator: " + expr->operator_token.lexeme;
-        std::string op_node = create_node(label, CONTROL_COLOR);
+        std::string op_node = create_node(label, CONTROL_COLOUR);
 
         // Create nodes for left and right operands and connect
         std::string left_node = std::any_cast<std::string>(expr->left_expr->accept(*this));
@@ -244,7 +244,7 @@ public:
     std::any visit_grouping_expr(std::shared_ptr<Grouping> expr) override
     {
         // Simple node for grouping
-        std::string group_node = create_node("Grouping", CONTROL_COLOR);
+        std::string group_node = create_node("Grouping", CONTROL_COLOUR);
 
         // Create node for inner expression and connect
         std::string inner_node = std::any_cast<std::string>(expr->inner_expr->accept(*this));
@@ -257,14 +257,14 @@ public:
     {
         // Create multi-line node for literal with its value
         std::string label = "Literal\nvalue: " + any_to_string(expr->literal_value);
-        return create_node(label, CONSTANT_COLOR);
+        return create_node(label, CONSTANT_COLOUR);
     }
 
     std::any visit_logical_expr(std::shared_ptr<Logical> expr) override
     {
         // Create multi-line node for logical operator
         std::string label = "Logical\noperator: " + expr->operator_token.lexeme;
-        std::string logic_node = create_node(label, CONTROL_COLOR);
+        std::string logic_node = create_node(label, CONTROL_COLOUR);
 
         // Create nodes for left and right operands and connect
         std::string left_node = std::any_cast<std::string>(expr->left_expr->accept(*this));
@@ -280,7 +280,7 @@ public:
     {
         // Create multi-line node for unary operator
         std::string label = "Unary\noperator: " + expr->operator_token.lexeme;
-        std::string unary_node = create_node(label, CONTROL_COLOR);
+        std::string unary_node = create_node(label, CONTROL_COLOUR);
 
         // Create node for operand and connect
         std::string operand_node = std::any_cast<std::string>(expr->operand->accept(*this));
@@ -293,7 +293,7 @@ public:
     {
         // Create multi-line node for variable reference
         std::string label = "Variable\nname: " + expr->var_name.lexeme;
-        return create_node(label, VARIABLE_COLOR);
+        return create_node(label, VARIABLE_COLOUR);
     }
 
     //----------------------------------------------
@@ -302,7 +302,7 @@ public:
     std::any visit_block_stmt(std::shared_ptr<Block> stmt) override
     {
         // Create node for block
-        std::string block_node = create_node("Block", CONTROL_COLOR);
+        std::string block_node = create_node("Block", CONTROL_COLOUR);
 
         // Create nodes for each statement in block and connect
         for (const auto &statement : stmt->statements)
@@ -320,7 +320,7 @@ public:
     std::any visit_expression_stmt(std::shared_ptr<Expression> stmt) override
     {
         // Create node for expression statement
-        std::string expr_stmt_node = create_node("ExprStmt", CONTROL_COLOR);
+        std::string expr_stmt_node = create_node("ExprStmt", CONTROL_COLOUR);
 
         // Create node for the expression and connect
         std::string expr_node = std::any_cast<std::string>(stmt->expression->accept(*this));
@@ -332,7 +332,7 @@ public:
     std::any visit_if_stmt(std::shared_ptr<If> stmt) override
     {
         // Create node for if statement
-        std::string if_node = create_node("If", CONTROL_COLOR);
+        std::string if_node = create_node("If", CONTROL_COLOUR);
 
         // Create nodes for condition, then branch, else branch and connect
         std::string cond_node = std::any_cast<std::string>(stmt->condition->accept(*this));
@@ -353,7 +353,7 @@ public:
     std::any visit_print_stmt(std::shared_ptr<Print> stmt) override
     {
         // Create node for print statement
-        std::string print_node = create_node("Print", CONTROL_COLOR);
+        std::string print_node = create_node("Print", CONTROL_COLOUR);
 
         // Create node for expression and connect
         std::string expr_node = std::any_cast<std::string>(stmt->expression->accept(*this));
@@ -366,7 +366,7 @@ public:
     {
         // Create multi-line node for variable declaration
         std::string label = "Var\nname: " + stmt->name.lexeme;
-        std::string var_node = create_node(label, VARIABLE_COLOR);
+        std::string var_node = create_node(label, VARIABLE_COLOUR);
 
         // Create node for initialiser if present
         if (stmt->initialiser)
@@ -381,7 +381,7 @@ public:
     std::any visit_while_stmt(std::shared_ptr<While> stmt) override
     {
         // Create node for while statement
-        std::string while_node = create_node("While", CONTROL_COLOR);
+        std::string while_node = create_node("While", CONTROL_COLOUR);
 
         // Create nodes for condition and body and connect
         std::string cond_node = std::any_cast<std::string>(stmt->condition->accept(*this));

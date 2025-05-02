@@ -8,45 +8,45 @@
 #include "token.h"
 
 /**
- * Token Printer - Creates colorised terminal output for token streams
+ * Token Printer - Creates colourised terminal output for token streams
  * Shows source code with syntax highlighting and token details
  */
 class TokenPrinter
 {
 private:
-    // ANSI color codes
+    // ANSI colour codes
     const std::string RESET = "\033[0m";
     const std::string BOLD = "\033[1m";
-    const std::string KEYWORD_COLOR = "\033[34m";     // Blue for keywords
-    const std::string IDENTIFIER_COLOR = "\033[32m";  // Green for identifiers
-    const std::string LITERAL_COLOR = "\033[33m";     // Yellow for literals
-    const std::string OPERATOR_COLOR = "\033[35m";    // Purple for operators
-    const std::string DELIMITER_COLOR = "\033[31m";   // Red/Orange for delimiters
-    const std::string LINE_NUMBER_COLOR = "\033[36m"; // Cyan for line numbers
+    const std::string KEYWORD_COLOUR = "\033[34m";     // Blue for keywords
+    const std::string IDENTIFIER_COLOUR = "\033[32m";  // Green for identifiers
+    const std::string LITERAL_COLOUR = "\033[33m";     // Yellow for literals
+    const std::string OPERATOR_COLOUR = "\033[35m";    // Purple for operators
+    const std::string DELIMITER_COLOUR = "\033[31m";   // Red/Orange for delimiters
+    const std::string LINE_NUMBER_COLOUR = "\033[36m"; // Cyan for line numbers
 
-    // Get color for a token type
-    std::string get_token_color(TokenType type) const
+    // Get colour for a token type
+    std::string get_token_colour(TokenType type) const
     {
         // Keywords
         if (type >= AND && type <= WHILE)
-            return KEYWORD_COLOR;
+            return KEYWORD_COLOUR;
 
         // Identifiers
         if (type == IDENTIFIER)
-            return IDENTIFIER_COLOR;
+            return IDENTIFIER_COLOUR;
 
         // Literals
         if (type == STRING || type == NUMBER || type == TRUE || type == FALSE || type == NIL)
-            return LITERAL_COLOR;
+            return LITERAL_COLOUR;
 
         // Operators
         if ((type >= BANG && type <= LESS_EQUAL) ||
             type == MINUS || type == PLUS || type == SLASH || type == STAR)
-            return OPERATOR_COLOR;
+            return OPERATOR_COLOUR;
 
         // Delimiters
         if (type <= RIGHT_BRACE || type == COMMA || type == DOT || type == SEMICOLON)
-            return DELIMITER_COLOR;
+            return DELIMITER_COLOUR;
 
         return RESET;
     }
@@ -55,11 +55,11 @@ public:
     /**
      * Display the source code with syntax highlighting
      */
-    void print_colorised_source(std::string_view source, const std::vector<Token> &tokens)
+    void print_colourised_source(std::string_view source, const std::vector<Token> &tokens)
     {
         std::cout << BOLD << "\nSOURCE CODE WITH HIGHLIGHTING" << RESET << "\n\n";
 
-        // Create a map of positions to tokens for coloring
+        // Create a map of positions to tokens for colouring
         std::vector<std::pair<size_t, const Token *>> token_positions;
 
         // Find each token's position in the source
@@ -84,11 +84,11 @@ public:
                   [](const auto &a, const auto &b)
                   { return a.first < b.first; });
 
-        // Display source with colors
+        // Display source with colours
         size_t current_pos = 0;
         int line_number = 1;
 
-        std::cout << LINE_NUMBER_COLOR << std::setw(4) << line_number << " |" << RESET << " ";
+        std::cout << LINE_NUMBER_COLOUR << std::setw(4) << line_number << " |" << RESET << " ";
 
         for (const auto &[pos, token_ptr] : token_positions)
         {
@@ -104,17 +104,17 @@ public:
                     if (c == '\n')
                     {
                         line_number++;
-                        std::cout << LINE_NUMBER_COLOR << std::setw(4) << line_number << " |" << RESET << " ";
+                        std::cout << LINE_NUMBER_COLOUR << std::setw(4) << line_number << " |" << RESET << " ";
                     }
                 }
             }
 
-            // Get color for this token
-            std::string color = get_token_color(token_ptr->type);
+            // Get colour for this token
+            std::string colour = get_token_colour(token_ptr->type);
 
-            // Print the token with color
+            // Print the token with colour
             std::string token_text = std::string(token_ptr->lexeme);
-            std::cout << color << token_text << RESET;
+            std::cout << colour << token_text << RESET;
 
             // Update position
             current_pos = pos + token_text.length();
@@ -130,7 +130,7 @@ public:
                 if (c == '\n')
                 {
                     line_number++;
-                    std::cout << LINE_NUMBER_COLOR << std::setw(4) << line_number << " |" << RESET << " ";
+                    std::cout << LINE_NUMBER_COLOUR << std::setw(4) << line_number << " |" << RESET << " ";
                 }
             }
         }
@@ -175,10 +175,10 @@ public:
             for (size_t i = 0; i < line_tokens.size(); i++)
             {
                 const Token *token = line_tokens[i];
-                std::string color = get_token_color(token->type);
+                std::string colour = get_token_colour(token->type);
 
                 std::cout << std::setw(5) << i
-                          << color << std::setw(20) << ::to_string(token->type)
+                          << colour << std::setw(20) << ::to_string(token->type)
                           << std::setw(30) << token->lexeme << RESET
                           << line_number << std::endl;
             }
@@ -188,11 +188,11 @@ public:
     }
 
     /**
-     * Visualise tokens with both colorised source and token details
+     * Visualise tokens with both colourised source and token details
      */
     void visualise_tokens(std::string_view source, const std::vector<Token> &tokens)
     {
-        print_colorised_source(source, tokens);
+        print_colourised_source(source, tokens);
         print_token_list(tokens);
     }
 };
@@ -206,45 +206,45 @@ public:
 #include "token.h"
 
 /**
- * Token Printer - Creates colorized terminal output for token streams
+ * Token Printer - Creates colourised terminal output for token streams
  * Shows source code with syntax highlighting and token details
  */
 class TokenPrinter
 {
 private:
-    // ANSI color codes
+    // ANSI colour codes
     const std::string RESET = "\033[0m";
     const std::string BOLD = "\033[1m";
-    const std::string KEYWORD_COLOR = "\033[34m";     // Blue for keywords
-    const std::string IDENTIFIER_COLOR = "\033[32m";  // Green for identifiers
-    const std::string LITERAL_COLOR = "\033[33m";     // Yellow for literals
-    const std::string OPERATOR_COLOR = "\033[35m";    // Purple for operators
-    const std::string DELIMITER_COLOR = "\033[31m";   // Red/Orange for delimiters
-    const std::string LINE_NUMBER_COLOR = "\033[36m"; // Cyan for line numbers
+    const std::string KEYWORD_COLOUR = "\033[34m";     // Blue for keywords
+    const std::string IDENTIFIER_COLOUR = "\033[32m";  // Green for identifiers
+    const std::string LITERAL_COLOUR = "\033[33m";     // Yellow for literals
+    const std::string OPERATOR_COLOUR = "\033[35m";    // Purple for operators
+    const std::string DELIMITER_COLOUR = "\033[31m";   // Red/Orange for delimiters
+    const std::string LINE_NUMBER_COLOUR = "\033[36m"; // Cyan for line numbers
 
-    // Get color for a token type
-    std::string get_token_color(TokenType type) const
+    // Get colour for a token type
+    std::string get_token_colour(TokenType type) const
     {
         // Keywords
         if (type >= AND && type <= WHILE)
-            return KEYWORD_COLOR;
+            return KEYWORD_COLOUR;
 
         // Identifiers
         if (type == IDENTIFIER)
-            return IDENTIFIER_COLOR;
+            return IDENTIFIER_COLOUR;
 
         // Literals
         if (type == STRING || type == NUMBER || type == TRUE || type == FALSE || type == NIL)
-            return LITERAL_COLOR;
+            return LITERAL_COLOUR;
 
         // Operators
         if ((type >= BANG && type <= LESS_EQUAL) ||
             type == MINUS || type == PLUS || type == SLASH || type == STAR)
-            return OPERATOR_COLOR;
+            return OPERATOR_COLOUR;
 
         // Delimiters
         if (type <= RIGHT_BRACE || type == COMMA || type == DOT || type == SEMICOLON)
-            return DELIMITER_COLOR;
+            return DELIMITER_COLOUR;
 
         return RESET;
     }
@@ -253,11 +253,11 @@ public:
     /**
      * Display the source code with syntax highlighting
      */
-    void print_colorized_source(std::string_view source, const std::vector<Token> &tokens)
+    void print_colourised_source(std::string_view source, const std::vector<Token> &tokens)
     {
         std::cout << BOLD << "\n=== SOURCE CODE WITH HIGHLIGHTING ===" << RESET << "\n\n";
 
-        // Create a map of positions to tokens for coloring
+        // Create a map of positions to tokens for colouring
         std::vector<std::pair<size_t, const Token *>> token_positions;
 
         // Find each token's position in the source
@@ -282,11 +282,11 @@ public:
                   [](const auto &a, const auto &b)
                   { return a.first < b.first; });
 
-        // Display source with colors
+        // Display source with colours
         size_t current_pos = 0;
         int line_number = 1;
 
-        std::cout << LINE_NUMBER_COLOR << std::setw(4) << line_number << " |" << RESET << " ";
+        std::cout << LINE_NUMBER_COLOUR << std::setw(4) << line_number << " |" << RESET << " ";
 
         for (const auto &[pos, token_ptr] : token_positions)
         {
@@ -302,17 +302,17 @@ public:
                     if (c == '\n')
                     {
                         line_number++;
-                        std::cout << LINE_NUMBER_COLOR << std::setw(4) << line_number << " |" << RESET << " ";
+                        std::cout << LINE_NUMBER_COLOUR << std::setw(4) << line_number << " |" << RESET << " ";
                     }
                 }
             }
 
-            // Get color for this token
-            std::string color = get_token_color(token_ptr->type);
+            // Get colour for this token
+            std::string colour = get_token_colour(token_ptr->type);
 
-            // Print the token with color
+            // Print the token with colour
             std::string token_text = std::string(token_ptr->lexeme);
-            std::cout << color << token_text << RESET;
+            std::cout << colour << token_text << RESET;
 
             // Update position
             current_pos = pos + token_text.length();
@@ -328,7 +328,7 @@ public:
                 if (c == '\n')
                 {
                     line_number++;
-                    std::cout << LINE_NUMBER_COLOR << std::setw(4) << line_number << " |" << RESET << " ";
+                    std::cout << LINE_NUMBER_COLOUR << std::setw(4) << line_number << " |" << RESET << " ";
                 }
             }
         }
@@ -373,10 +373,10 @@ public:
             for (size_t i = 0; i < line_tokens.size(); i++)
             {
                 const Token *token = line_tokens[i];
-                std::string color = get_token_color(token->type);
+                std::string colour = get_token_colour(token->type);
 
                 std::cout << std::setw(5) << i
-                          << color << std::setw(20) << ::to_string(token->type)
+                          << colour << std::setw(20) << ::to_string(token->type)
                           << std::setw(30) << token->lexeme << RESET
                           << line_number << std::endl;
             }
@@ -386,11 +386,11 @@ public:
     }
 
     /**
-     * Visualize tokens with both colorized source and token details
+     * Visualise tokens with both colourised source and token details
      */
-    void visualize_tokens(std::string_view source, const std::vector<Token> &tokens)
+    void visualise_tokens(std::string_view source, const std::vector<Token> &tokens)
     {
-        print_colorized_source(source, tokens);
+        print_colourised_source(source, tokens);
         print_token_list(tokens);
     }
 };

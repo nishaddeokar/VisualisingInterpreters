@@ -95,7 +95,7 @@ struct Binary : Expr, public std::enable_shared_from_this<Binary>
 };
 
 /**
- * Represents a parenthesized expression
+ * Represents a parenthesised expression
  * Example: (a + b)
  */
 struct Grouping : Expr, public std::enable_shared_from_this<Grouping>
