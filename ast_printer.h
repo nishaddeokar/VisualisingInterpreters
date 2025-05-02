@@ -142,7 +142,7 @@ private:
         dot_cmd = "lib\\dot.exe";
 
         // Run the command
-        std::string cmd = dot_cmd + " -Tpng \"" + dot_file + "\" -o \"" + png_file + "\"";
+        std::string cmd = dot_cmd + " -Tpng -Gdpi=600 \"" + dot_file + "\" -o \"" + png_file + "\"";
         int result = system(cmd.c_str());
 
         if (result == 0)
