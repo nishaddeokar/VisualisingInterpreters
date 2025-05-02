@@ -15,9 +15,9 @@
 // Environment state
 Interpreter interpreter{};
 
-// Visualization mode flags
+// Visualisation mode flags
 bool visual_mode = false;
-bool token_mode = false; // New flag for token visualization
+bool token_mode = false; // New flag for token visualisation
 
 // File operations
 std::string read_file(std::string_view filename)
@@ -54,11 +54,11 @@ void run(std::string_view code, bool is_interactive = false)
     Lexer lexer{code};
     std::vector<Token> tokens = lexer.scan_tokens();
 
-    // Step 1.5: Token visualization if in token mode
+    // Step 1.5: Token visualisation if in token mode
     if (token_mode)
     {
         TokenPrinter token_printer;
-        token_printer.visualize_tokens(code, tokens);
+        token_printer.visualise_tokens(code, tokens);
     }
 
     // Step 2: Syntax analysis
@@ -71,23 +71,23 @@ void run(std::string_view code, bool is_interactive = false)
         return;
     }
 
-    // Step 3: Visualization if in visual mode
+    // Step 3: Visualisation if in visual mode
     if (visual_mode)
     {
         AstPrinter printer;
         if (is_interactive)
         {
-            // For interactive mode, visualize each statement separately
+            // For interactive mode, visualise each statement separately
             // and reuse the same output file
             if (!statements.empty())
             {
-                printer.visualize_stmt(statements.back(), "ast");
+                printer.visualise_stmt(statements.back(), "ast");
             }
         }
         else
         {
-            // For file execution, visualize the whole program
-            printer.visualize_program(statements, "program_ast");
+            // For file execution, visualise the whole program
+            printer.visualise_program(statements, "program_ast");
         }
     }
 

@@ -235,7 +235,7 @@ public:
     // Constructor takes source code to analyze
     Lexer(std::string_view source) : source(source) {}
 
-    // Main method to tokenize the source code
+    // Main method to tokenise the source code
     std::vector<Token> scan_tokens()
     {
         // Continue until end ofsource
@@ -252,7 +252,7 @@ public:
     }
 };
 
-// Initialize the reserved keywords lookup table
+// Initialise the reserved keywords lookup table
 const std::map<std::string, TokenType> Lexer::keywords = {
     {"and", TokenType::AND},
     {"class", TokenType::CLASS},
