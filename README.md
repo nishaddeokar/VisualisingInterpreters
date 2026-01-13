@@ -50,6 +50,11 @@ You can combine both visualisation modes!
 
 ## Results
 
-![Token visualisation output](https://github.com/user-attachments/assets/28b35df6-0fe9-448b-9e74-5b9c7fcbede2 "Token visualisation output")
-![AST visualisation output](https://github.com/user-attachments/assets/e4ec5698-b6e8-4585-996a-a6d994d329e9 "AST visualisation output")
+<img src="https://github.com/user-attachments/assets/28b35df6-0fe9-448b-9e74-5b9c7fcbede2"
+     alt="Token visualisation output"
+     width="800" />
+
+<img src="https://github.com/user-attachments/assets/e4ec5698-b6e8-4585-996a-a6d994d329e9"
+     alt="AST visualisation output"
+     width="650" />
 
