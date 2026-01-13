@@ -47,3 +47,9 @@ This creates a PNG file in the images directory showing the program's abstract s
 You can combine both visualisation modes!
 
 `./prism -t -v fibonacci.prism`
+
+## Results
+
+![Token visualisation output](https://github.com/user-attachments/assets/28b35df6-0fe9-448b-9e74-5b9c7fcbede2 "Token visualisation output")
+![AST visualisation output](https://github.com/user-attachments/assets/e4ec5698-b6e8-4585-996a-a6d994d329e9 "AST visualisation output")
+
